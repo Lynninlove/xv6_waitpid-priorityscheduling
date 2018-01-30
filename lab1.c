@@ -12,8 +12,8 @@ int main(int argc, char *argv[])
   
   if (atoi(argv[1]) == 1)
 	exitWait();
- /* else if (atoi(argv[1]) == 2)
-	waitPid(); */
+  else if (atoi(argv[1]) == 2)
+	waitPid(); 
   else 
    printf(1, "\ntype \"lab1 1\" to test exit and wait, \"lab1 2\" to test waitpid \n");
   
@@ -53,7 +53,7 @@ int exitWait(void) {
   }
   return 0;
 }
-/*
+
 int waitPid(void){
 	
   int ret_pid, exit_status;
@@ -95,7 +95,6 @@ int waitPid(void){
       
       return 0;
   }
-      
- */     
+          
     
 
