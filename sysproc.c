@@ -14,17 +14,40 @@ sys_fork(void)
 }
 
 int
-sys_exit(void)
+sys_exit() //changed from void to exit, need to keep void because syscall
 {
-  exit();
+  int status; 
+  argint(0, &status);  //check
+  exit(status);
   return 0;  // not reached
 }
 
 int
 sys_wait(void)
 {
-  return wait();
+  int *status; //allocate pointer
+  argptr(0, (void*) &status, sizeof(int)); 
+  return wait(status);
 }
+
+int
+sys_waitpid(void)
+{
+  int pid; //allocate parameter variables  
+  int *status;
+  int options;
+  argint(0, &pid); //check variables
+  argptr(1, (void*) &status, sizeof(int));
+  argint(2, &options); 
+
+  return waitpid(pid, status, options); //call waitpid 
+
+ 
+}
+
+ 
+ 
+
 
 int
 sys_kill(void)
