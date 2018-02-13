@@ -612,24 +612,33 @@ procdump(void)
   }
 }
 //sets the priority LAB2
-int setpriority(int pid, int priority)
+int setpriority(int priority)
 {
-  struct proc *p;
-
+ // struct proc *p;
+  //int curPid = getpid(); 
+  struct proc *curproc = myproc(); 
   acquire(&ptable.lock);
-  for(p = ptable.proc; p < &ptable.proc[NPROC]; p++)
+ /* for(p = ptable.proc; p < &ptable.proc[NPROC]; p++)
   {
-    if(p->pid == pid)
+    if(p->pid == curproc->pid)
     {
       p->priority = priority;
       release(&ptable.lock);
-      return pid; //might have to return 0 instead
+      yield(); 
+      //exit(0); //success
     }
-  }
+  }*/
+	curproc->priority = priority;
+	curproc->state = RUNNABLE;
+
   release(&ptable.lock);
-  return -1;
+  yield(); 
+
+return priority;
+
+  //exit(-1); //can't find process
 }
-int getpriority();
+/*int getpriority()
 {
  struct proc *p;
 
@@ -644,5 +653,5 @@ int getpriority();
   }
   release(&ptable.lock);
   return -1;
-}
+} */
 

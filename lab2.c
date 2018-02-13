@@ -9,8 +9,9 @@ int main(int argc, char *argv[])
   printf(1, "\n This program tests the correctness of your lab2\n");
   
   PScheduler();
+  
+  exit(0); //added for non void
 
-  return 0; //I added this
 }    
 int PScheduler(void){
 		 
@@ -42,7 +43,8 @@ int PScheduler(void){
 	   asm("nop"); 
          }
         }      
-       printf(1, "\n child %d with priority %d has finished! \n",getpid(),30-10*i);		
+       printf(1, "\n child %d with priority %d has finished! \n",getpid(),30-10*i);
+       exit(0); 		
       }
       else
       {
