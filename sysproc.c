@@ -50,7 +50,14 @@ sys_setpriority(void)
   int prior;
   argint(0, &prior);
   return setpriority(prior);
-    
+}
+int
+sys_getpriority(void)
+{
+  int pid;
+  argint(0,&pid);
+  getpriority(pid);
+  return 0;  
 }  
 int
 sys_kill(void)

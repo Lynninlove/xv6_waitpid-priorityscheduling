@@ -298,10 +298,10 @@ wait(int *status)
         p->name[0] = 0;
         p->killed = 0;
         p->state = UNUSED;
-	if (status) //return exitStatus 
-	{
+  if (status) //return exitStatus 
+  {
            *status = p->exitStatus; 
-	} 
+  } 
         release(&ptable.lock);
         return pid;
       }
@@ -311,7 +311,7 @@ wait(int *status)
     if(!havekids || curproc->killed){
       if(status)
       {
-	*status = -1; 
+  *status = -1; 
       }
       release(&ptable.lock);
       return -1;
@@ -346,10 +346,10 @@ waitpid(int pid,int *status, int options)
         p->name[0] = 0;
         p->killed = 0;
         p->state = UNUSED;
-	if (status) //return exitStatus 
-	{
+  if (status) //return exitStatus 
+  {
            *status = p->exitStatus; 
-	} 
+  } 
         release(&ptable.lock);
         return pid;
        }
@@ -358,10 +358,10 @@ waitpid(int pid,int *status, int options)
 
       if (!pidfound || curproc->killed) //if doesn't exist return -1 
       {
-	*status = -1;
-	release(&ptable.lock); 
+  *status = -1;
+  release(&ptable.lock); 
         return -1; 
-      }	 
+      }  
     // Wait for children to exit.  (See wakeup1 call in proc_exit.)
     sleep(curproc, &ptable.lock);  //DOC: wait-sleep
   }
@@ -371,7 +371,7 @@ waitpid(int pid,int *status, int options)
 /*    if(!havekids || curproc->killed){
       if(status)
       {
-	*status = -1; 
+  *status = -1; 
       }
       release(&ptable.lock);
       return -1;
@@ -410,7 +410,7 @@ scheduler(void)
         if(p1->state != RUNNABLE)
           continue;
         if(highPriority->priority > p1->priority) 
-	   highPriority = p1; //set pointer to process with higher priority
+     highPriority = p1; //set pointer to process with higher priority
       } 
 
 
@@ -618,16 +618,7 @@ int setpriority(int priority)
   //int curPid = getpid(); 
   struct proc *curproc = myproc(); 
   acquire(&ptable.lock);
- /* for(p = ptable.proc; p < &ptable.proc[NPROC]; p++)
-  {
-    if(p->pid == curproc->pid)
-    {
-      p->priority = priority;
-      release(&ptable.lock);
-      yield(); 
-      //exit(0); //success
-    }
-  }*/
+
 	curproc->priority = priority;
 	curproc->state = RUNNABLE;
 
@@ -638,7 +629,7 @@ return priority;
 
   //exit(-1); //can't find process
 }
-/*int getpriority()
+int getpriority(int pid)
 {
  struct proc *p;
 
@@ -653,5 +644,4 @@ return priority;
   }
   release(&ptable.lock);
   return -1;
-} */
-
+}
