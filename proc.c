@@ -7,6 +7,8 @@
 #include "proc.h"
 #include "spinlock.h"
 
+#define NULL 0; 
+
 struct {
   struct spinlock lock;
   struct proc proc[NPROC];
@@ -88,7 +90,7 @@ allocproc(void)
 found:
   p->state = EMBRYO;
   p->pid = nextpid++;
-
+  p->priority = 15; //DEFAULT PRIORITY SET TO 15 (LAB2) 
   release(&ptable.lock);
 
   // Allocate kernel stack.
@@ -386,6 +388,7 @@ void
 scheduler(void)
 {
   struct proc *p;
+  struct proc *p1; //need pointer to compare priorities 
   struct cpu *c = mycpu();
   c->proc = 0;
   
@@ -393,15 +396,28 @@ scheduler(void)
     // Enable interrupts on this processor.
     sti();
 
+    struct proc *highPriority = NULL; //LAB2 
+
     // Loop over process table looking for process to run.
     acquire(&ptable.lock);
     for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
       if(p->state != RUNNABLE)
         continue;
 
+      highPriority = p; //Lab2 
+
+      for(p1 = ptable.proc; p1 < &ptable.proc[NPROC]; p1++){
+        if(p1->state != RUNNABLE)
+          continue;
+        if(highPriority->priority > p1->priority) 
+	   highPriority = p1; //set pointer to process with higher priority
+      } 
+
+
       // Switch to chosen process.  It is the process's job
       // to release ptable.lock and then reacquire it
       // before jumping back to us.
+      p = highPriority; //set p to point to process with highest priority 
       c->proc = p;
       switchuvm(p);
       p->state = RUNNING;

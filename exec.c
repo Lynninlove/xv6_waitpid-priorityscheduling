@@ -99,6 +99,7 @@ exec(char *path, char **argv)
   curproc->sz = sz;
   curproc->tf->eip = elf.entry;  // main
   curproc->tf->esp = sp;
+  curproc->priority = 5; //SET SHELL PROCESSES TO 5 SO IT EXECUTES
   switchuvm(curproc);
   freevm(oldpgdir);
   return 0;
