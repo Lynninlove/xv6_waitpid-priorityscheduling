@@ -176,6 +176,7 @@ UPROGS=\
 	_zombie\
 	_lab1\
 	_helloworld\
+        _lab2\
 
 fs.img: mkfs README $(UPROGS)
 	./mkfs fs.img README $(UPROGS)

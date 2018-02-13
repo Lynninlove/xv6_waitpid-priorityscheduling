@@ -611,3 +611,38 @@ procdump(void)
     cprintf("\n");
   }
 }
+//sets the priority LAB2
+int setpriority(int pid, int priority)
+{
+  struct proc *p;
+
+  acquire(&ptable.lock);
+  for(p = ptable.proc; p < &ptable.proc[NPROC]; p++)
+  {
+    if(p->pid == pid)
+    {
+      p->priority = priority;
+      release(&ptable.lock);
+      return pid; //might have to return 0 instead
+    }
+  }
+  release(&ptable.lock);
+  return -1;
+}
+int getpriority();
+{
+ struct proc *p;
+
+  acquire(&ptable.lock);
+  for(p = ptable.proc; p < &ptable.proc[NPROC]; p++)
+  {
+    if(p->pid == pid)
+    {
+      release(&ptable.lock);
+      return p->priority;
+    }
+  }
+  release(&ptable.lock);
+  return -1;
+}
+
